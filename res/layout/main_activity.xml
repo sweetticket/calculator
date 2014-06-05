@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+     <TextView
+        android:id="@+id/calc_input"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:hint="@string/calc_input" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/one"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/add"
+            android:onClick="setOp" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/subtract"
+            android:onClick="setOp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/clear"
+            android:onClick="clearInput"
+             />
+        
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/eq"
+            android:onClick="calculate" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal" >
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/one"
+            android:onClick="displayDigit"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/two"
+            android:onClick="displayDigit" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/three"
+            android:onClick="displayDigit" />
+    </LinearLayout>
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal" >
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/four"
+            android:onClick="displayDigit" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/five"
+            android:onClick="displayDigit" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/six"
+            android:onClick="displayDigit" />
+    </LinearLayout>
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:onClick="displayDigit" >
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/seven"
+            android:onClick="displayDigit" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/eight"
+            android:onClick="displayDigit" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/nine"
+            android:onClick="displayDigit" />
+    </LinearLayout>
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal" >
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/zero"
+            android:onClick="displayDigit" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/dec"
+            android:onClick="displayDigit" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/sign"
+            android:onClick="changeSigns" />
+    </LinearLayout>
+
+</LinearLayout>
