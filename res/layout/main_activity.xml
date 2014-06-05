@@ -16,132 +16,115 @@
         android:layout_height="80dp"
         android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/one"
+        <Button android:id="@+id/btn_add"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/add"
-            android:onClick="setOp" />
-        <Button
+            android:text="@string/add" />
+        <Button android:id="@+id/btn_subtract"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/subtract"
-            android:onClick="setOp" />
+            android:text="@string/subtract" />
 
-        <Button
+        <Button android:id="@+id/btn_clear"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:text="@string/clear"
-            android:onClick="clearInput"
              />
         
-        <Button
+        <Button android:id="@+id/btn_eq"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/eq"
-            android:onClick="calculate" />
+            android:text="@string/eq" />
     </LinearLayout>
     
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal" >
-        <Button
+        <Button android:id="@+id/btn_one"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/one"
-            android:onClick="displayDigit"/>
+            android:text="@string/one"/>
 
-        <Button
+        <Button android:id="@+id/btn_two"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/two"
-            android:onClick="displayDigit" />
-        <Button
+            android:text="@string/two" />
+        <Button android:id="@+id/btn_three"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/three"
-            android:onClick="displayDigit" />
+            android:text="@string/three" />
     </LinearLayout>
         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal" >
-        <Button
+        <Button android:id="@+id/btn_four"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/four"
-            android:onClick="displayDigit" />
+            android:text="@string/four" />
 
-        <Button
+        <Button android:id="@+id/btn_five"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/five"
-            android:onClick="displayDigit" />
-        <Button
+            android:text="@string/five" />
+        <Button android:id="@+id/btn_six"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/six"
-            android:onClick="displayDigit" />
+            android:text="@string/six" />
     </LinearLayout>
         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal"
         android:onClick="displayDigit" >
-        <Button
+        <Button android:id="@+id/btn_seven"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/seven"
-            android:onClick="displayDigit" />
+            android:text="@string/seven" />
 
-        <Button
+        <Button android:id="@+id/btn_eight"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/eight"
-            android:onClick="displayDigit" />
-        <Button
+            android:text="@string/eight" />
+        <Button android:id="@+id/btn_nine"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/nine"
-            android:onClick="displayDigit" />
+            android:text="@string/nine" />
     </LinearLayout>
         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal" >
-        <Button
+        <Button android:id="@+id/btn_zero"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/zero"
-            android:onClick="displayDigit" />
+            android:text="@string/zero" />
 
-        <Button
+        <Button android:id="@+id/btn_dec"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/dec"
-            android:onClick="displayDigit" />
-        <Button
+            android:text="@string/dec"/>
+        <Button android:id="@+id/btn_sign"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/sign"
-            android:onClick="changeSigns" />
+            android:text="@string/sign" />
     </LinearLayout>
 
 </LinearLayout>
