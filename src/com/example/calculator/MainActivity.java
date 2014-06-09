@@ -8,10 +8,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
+	// Constants
+	private int ADD = 1;
+	private int SUBTRACT = 2;
+	private int RESET = 0; // no operation set
 	
+	// Members
 	private String mPreInput = ""; //input that is currently in the textbox
 	private double mLastInput = 0.0; //input that was last in the textbox before the textbox was cleared
-	private String mOp = ""; //operation to be executed
+	private double mOp = RESET; //operation to be executed
 	private TextView mTextBox; //textbox pointer
 	
 	@Override
@@ -99,7 +104,7 @@ public class MainActivity extends Activity {
 	public void clearInput(View view) {
 		mPreInput = "";
 		mTextBox.setText(mPreInput);
-
+		mOp = RESET;
 	}
 
 	/**
@@ -121,7 +126,7 @@ public class MainActivity extends Activity {
 	 */
 	public void setOp(View view) {
 		Button b = (Button) view;
-		mOp = (String) b.getText();
+		mOp = ((String)b.getText()).equals("-") ? SUBTRACT : ADD;
 		if (mPreInput.length() > 0) {
 			mLastInput = Double.parseDouble(mPreInput);
 			mPreInput = "";
@@ -133,12 +138,12 @@ public class MainActivity extends Activity {
 	 * Sets preinput to the final value. Displays final value in textbox.
 	 */
 	public void calculate(View view) {
-		if (mOp.equals("+")) {
+		if (mOp == ADD) {
 			mPreInput = (mLastInput + Double.parseDouble(mPreInput)) + "";
-		} else if (mOp.equals("-")) {
+		} else if (mOp == SUBTRACT) {
 			mPreInput = (mLastInput - Double.parseDouble(mPreInput)) + "";
 		}
-		mOp = "";
+		mOp = RESET;
 		mLastInput = 0.0;
 		mTextBox.setText(mPreInput);
 	}
