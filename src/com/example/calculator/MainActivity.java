@@ -13,6 +13,8 @@ public class MainActivity extends Activity {
 	// Constants
 	private int ADD = 1;
 	private int SUBTRACT = 2;
+	private int MULTIPLY = 3;
+	private int DIVIDE = 4;
 	private int RESET = 0;
 	
 	// Members
@@ -30,14 +32,16 @@ public class MainActivity extends Activity {
 		mTextBox = (TextView) findViewById(R.id.calc_input);
 		
 		//Listener for setting operation
-		OnClickListener listener = new OnClickListener() {
+		OnClickListener op_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				setOp(view);
 			}
 		};
-		((Button)findViewById(R.id.btn_add)).setOnClickListener(listener);
-		((Button)findViewById(R.id.btn_subtract)).setOnClickListener(listener);
+		((Button)findViewById(R.id.btn_add)).setOnClickListener(op_listener);
+		((Button)findViewById(R.id.btn_subtract)).setOnClickListener(op_listener);
+		((Button)findViewById(R.id.btn_mult)).setOnClickListener(op_listener);
+		((Button)findViewById(R.id.btn_div)).setOnClickListener(op_listener);
 
 		//Listener for entering digits
 		OnClickListener num_listener = new OnClickListener(){
@@ -138,7 +142,16 @@ public class MainActivity extends Activity {
 			mNewInput = false;
 		}
 		Button b = (Button) view;
-		mOp = ((String)b.getText()).equals("-") ? SUBTRACT : ADD;
+		String btnText = (String)b.getText();
+		if (btnText.equals("-")){
+			mOp = SUBTRACT;
+		} else if (btnText.equals("+")){
+			mOp = ADD;
+		} else if (btnText.equals("*")){
+			mOp = MULTIPLY;
+		} else {
+			mOp = DIVIDE;
+		}
 		if (mPreInput.length() > 0) {
 			mLastInput = new BigDecimal(mPreInput);
 			mPreInput = "";
@@ -154,6 +167,10 @@ public class MainActivity extends Activity {
 			mPreInput = (mLastInput.add(new BigDecimal(mPreInput))) + "";
 		} else if (mOp == SUBTRACT) {
 			mPreInput = (mLastInput.subtract(new BigDecimal(mPreInput))) + "";
+		} else if (mOp == MULTIPLY){
+			mPreInput = (mLastInput.multiply(new BigDecimal(mPreInput))) + "";
+		} else if (mOp == DIVIDE){
+			mPreInput = (mLastInput.divide(new BigDecimal(mPreInput))) + "";
 		}
 		mNewInput = true;
 		mOp = RESET;

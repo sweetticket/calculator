@@ -9,6 +9,8 @@
     <string name="calc_input"></string>
     <string name="clear">c</string>
     <string name="add">+</string>
+    <string name ="mult">*</string>
+    <string name="div">/</string>
     <string name="subtract">-</string>
     <string name="one">1</string>
     <string name="two">2</string>
