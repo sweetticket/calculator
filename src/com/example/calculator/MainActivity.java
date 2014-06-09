@@ -8,13 +8,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-
+	
+	// Constants
+	private static final int READY_FOR_NEXT = 1039184;
+	private static final int READY_TO_RESET = 2903039;
+	private static final int READY_TO_CALC = 2342222;
+	private static final int ENTERING_FIRST = 3209581;
+	
 	// Members
 	private CalcModel mState;
 	private TextView mTextBox; // textbox pointer
-	private boolean mReset = true; // if true, clear screen before entering
-										// new digits
-	private boolean mReadyForNext = false;
+	private int mMode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 		mTextBox = (TextView) findViewById(R.id.calc_input);
+		mMode = ENTERING_FIRST;
 		mState = new CalcModel();
 
 		// Listener for setting operation
@@ -30,8 +35,7 @@ public class MainActivity extends Activity {
 			public void onClick(View view) {
 				Button b = (Button) view;
 				mState.setOp((String) b.getText(), (String) mTextBox.getText());
-				mReadyForNext = true;
-				mReset = false;
+				mMode = READY_FOR_NEXT;
 			}
 		};
 		((Button) findViewById(R.id.btn_add)).setOnClickListener(op_listener);
@@ -44,6 +48,15 @@ public class MainActivity extends Activity {
 		OnClickListener num_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				if (mMode == READY_TO_RESET) {
+					mState.clearInput();
+					mTextBox.setText("");
+					mMode = ENTERING_FIRST;
+				}
+				if (mMode == READY_FOR_NEXT){
+					mTextBox.setText("");
+					mMode = READY_TO_CALC;
+				}
 				displayDigit(view);
 			}
 		};
@@ -78,6 +91,7 @@ public class MainActivity extends Activity {
 			public void onClick(View view) {
 				mState.clearInput();
 				mTextBox.setText("");
+				mMode = ENTERING_FIRST;
 			}
 		};
 		((Button) findViewById(R.id.btn_clear))
@@ -87,8 +101,8 @@ public class MainActivity extends Activity {
 		OnClickListener calc_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mReset = true;
 				mTextBox.setText(mState.calculate((String)mTextBox.getText()));
+				mMode = READY_TO_RESET;
 			}
 		};
 		((Button) findViewById(R.id.btn_eq)).setOnClickListener(calc_listener);
@@ -96,19 +110,9 @@ public class MainActivity extends Activity {
 	}
 
 	/**
-	 * Displays the digit clicked in text box. If digits are already displayed
-	 * in the text box, add the digit to the end of the pre-displayed input.
+	 * Displays the digit clicked in text box. Add the digit to the end of the pre-displayed input.
 	 */
 	public void displayDigit(View view) {
-		if (mReset) {
-			mState.clearInput();
-			mReset = false;
-		}
-		if (mReadyForNext){
-			mTextBox.setText("");
-			mReadyForNext = false;
-		}
-
 		if (mTextBox.getText().length() < 10) {
 			Button b = (Button) view;
 			mTextBox.setText(mTextBox.getText() + b.getText().toString());
