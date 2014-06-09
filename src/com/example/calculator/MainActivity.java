@@ -10,10 +10,10 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 	
 	// Constants
-	private static final int READY_FOR_NEXT = 1039184;
-	private static final int READY_TO_RESET = 2903039;
-	private static final int READY_TO_CALC = 2342222;
-	private static final int ENTERING_FIRST = 3209581;
+	private static final int READY_FOR_NEXT = 1039184; // ready for second number, textbox not yet refreshed
+	private static final int READY_TO_RESET = 2903039; // AC
+	private static final int READY_TO_CALC = 2342222; // current input is the second number
+	private static final int ENTERING_FIRST = 3209581; // current input is the first number
 	
 	// Members
 	private CalcModel mState;
@@ -34,6 +34,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				Button b = (Button) view;
+				if (mMode == READY_TO_CALC){
+					mTextBox.setText(mState.calculate((String)mTextBox.getText()));
+				}
 				mState.setOp((String) b.getText(), (String) mTextBox.getText());
 				mMode = READY_FOR_NEXT;
 			}
