@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
 		mTextBox = (TextView) findViewById(R.id.calc_input);
 		mMode = ENTERING_FIRST;
 		mState = new CalcModel();
+		mTextBox.setText(mState.getCurrent().toString());
 
 		// Listener for setting operation
 		OnClickListener op_listener = new OnClickListener() {
@@ -52,8 +53,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				if (mMode == READY_TO_RESET) {
-					mState.clearInput();
-					mTextBox.setText("");
+					reset();
 					mMode = ENTERING_FIRST;
 				}
 				if (mMode == READY_FOR_NEXT){
@@ -92,8 +92,7 @@ public class MainActivity extends Activity {
 		OnClickListener clear_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mState.clearInput();
-				mTextBox.setText("");
+				reset();
 				mMode = ENTERING_FIRST;
 			}
 		};
@@ -132,6 +131,12 @@ public class MainActivity extends Activity {
 				mTextBox.setText(mState.getCurrent().toString());
 
 		}
+	}
+	
+	/** AC */
+	public void reset(){
+		mState.clearInput();
+		mTextBox.setText(mState.getCurrent().toString());
 	}
 
 }
