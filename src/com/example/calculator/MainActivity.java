@@ -35,9 +35,9 @@ public class MainActivity extends Activity {
 			public void onClick(View view) {
 				Button b = (Button) view;
 				if (mMode == READY_TO_CALC){
-					mTextBox.setText(mState.calculate((String)mTextBox.getText()));
+					mTextBox.setText(mState.calculate().toString());
 				}
-				mState.setOp((String) b.getText(), (String) mTextBox.getText());
+				mState.setOp(b.getText().toString());
 				mMode = READY_FOR_NEXT;
 			}
 		};
@@ -104,7 +104,7 @@ public class MainActivity extends Activity {
 		OnClickListener calc_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mTextBox.setText(mState.calculate((String)mTextBox.getText()));
+				mTextBox.setText(mState.calculate().toString());
 				mMode = READY_TO_RESET;
 			}
 		};
@@ -118,7 +118,8 @@ public class MainActivity extends Activity {
 	public void displayDigit(View view) {
 		if (mTextBox.getText().length() < 10) {
 			Button b = (Button) view;
-			mTextBox.setText(mTextBox.getText() + b.getText().toString());
+			mState.updateDigit(Integer.parseInt(b.getText().toString()));
+			mTextBox.setText(mState.getCurrent().toString());
 		}
 	}
 
@@ -127,11 +128,9 @@ public class MainActivity extends Activity {
 	 */
 	public void changeSign(View view) {
 		if (mTextBox.getText().length() < 10) {
-			if (((String) mTextBox.getText()).substring(0, 1).equals("-")) {
-				mTextBox.setText(((String) mTextBox.getText()).substring(1));
-			} else {
-				mTextBox.setText("-" + mTextBox.getText());
-			}
+				mState.updateSign();
+				mTextBox.setText(mState.getCurrent().toString());
+
 		}
 	}
 
