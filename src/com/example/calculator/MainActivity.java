@@ -1,8 +1,5 @@
 package com.example.calculator;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,24 +8,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	// Constants
-	private int ADD = 1;
-	private int SUBTRACT = 2;
-	private int MULTIPLY = 3;
-	private int DIVIDE = 4;
-	private int RESET = 0;
 
 	// Members
-	private String mPreInput = ""; // input that is currently in the textbox
-	private BigDecimal mLastInput = new BigDecimal(RESET); // input that was
-															// last in the
-															// textbox before
-															// the textbox was
-															// cleared
-	private double mOp = RESET; // operation to be executed
+	private CalcModel mState;
 	private TextView mTextBox; // textbox pointer
-	private boolean mNewInput = true; // if true, clear screen before entering
+	private boolean mReset = true; // if true, clear screen before entering
 										// new digits
+	private boolean mReadyForNext = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +22,16 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 		mTextBox = (TextView) findViewById(R.id.calc_input);
+		mState = new CalcModel();
 
 		// Listener for setting operation
 		OnClickListener op_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				setOp(view);
+				Button b = (Button) view;
+				mState.setOp((String) b.getText(), (String) mTextBox.getText());
+				mReadyForNext = true;
+				mReset = false;
 			}
 		};
 		((Button) findViewById(R.id.btn_add)).setOnClickListener(op_listener);
@@ -86,7 +76,8 @@ public class MainActivity extends Activity {
 		OnClickListener clear_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				clearInput(view);
+				mState.clearInput();
+				mTextBox.setText("");
 			}
 		};
 		((Button) findViewById(R.id.btn_clear))
@@ -96,7 +87,8 @@ public class MainActivity extends Activity {
 		OnClickListener calc_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				calculate(view);
+				mReset = true;
+				mTextBox.setText(mState.calculate((String)mTextBox.getText()));
 			}
 		};
 		((Button) findViewById(R.id.btn_eq)).setOnClickListener(calc_listener);
@@ -108,94 +100,32 @@ public class MainActivity extends Activity {
 	 * in the text box, add the digit to the end of the pre-displayed input.
 	 */
 	public void displayDigit(View view) {
-		if (mNewInput) {
-			clearInput(view);
-			mNewInput = false;
+		if (mReset) {
+			mState.clearInput();
+			mReset = false;
 		}
-		if (mPreInput.length() < 10) {
+		if (mReadyForNext){
+			mTextBox.setText("");
+			mReadyForNext = false;
+		}
+
+		if (mTextBox.getText().length() < 10) {
 			Button b = (Button) view;
-			String new_digit = b.getText().toString();
-			String display_num = mPreInput + new_digit;
-			mPreInput = display_num;
-			mTextBox.setText(mPreInput);
+			mTextBox.setText(mTextBox.getText() + b.getText().toString());
 		}
-	}
-
-	/**
-	 * Clears preinput.
-	 */
-	public void clearInput(View view) {
-		mPreInput = "";
-		mTextBox.setText(mPreInput);
-		mOp = RESET;
-		mLastInput = new BigDecimal(RESET);
-
 	}
 
 	/**
 	 * Changes sign of preinput
 	 */
 	public void changeSign(View view) {
-		if (mPreInput.length() > 0) {
-			if (mPreInput.substring(0, 1).equals("-")) {
-				mPreInput = mPreInput.substring(1);
+		if (mTextBox.getText().length() < 10) {
+			if (((String) mTextBox.getText()).substring(0, 1).equals("-")) {
+				mTextBox.setText(((String) mTextBox.getText()).substring(1));
 			} else {
-				mPreInput = "-" + mPreInput;
-			}
-			mTextBox.setText(mPreInput);
-		}
-	}
-
-	/**
-	 * Sets fields for add operation
-	 */
-	public void setOp(View view) {
-		if (mNewInput) {
-			mNewInput = false;
-		}
-		Button b = (Button) view;
-		String btnText = (String) b.getText();
-		if (btnText.equals("-")) {
-			mOp = SUBTRACT;
-		} else if (btnText.equals("+")) {
-			mOp = ADD;
-		} else if (btnText.equals("*")) {
-			mOp = MULTIPLY;
-		} else {
-			mOp = DIVIDE;
-		}
-		if (mPreInput.length() > 0) {
-			mLastInput = new BigDecimal(mPreInput);
-			mPreInput = "";
-		}
-	}
-
-	/**
-	 * Calculates the final value using operation op, lastinput, and preinput.
-	 * Sets preinput to the final value. Displays final value in textbox.
-	 */
-	public void calculate(View view) {
-		if (mOp == ADD) {
-			mPreInput = (mLastInput.add(new BigDecimal(mPreInput)))
-					.stripTrailingZeros() + "";
-		} else if (mOp == SUBTRACT) {
-			mPreInput = (mLastInput.subtract(new BigDecimal(mPreInput)))
-					.stripTrailingZeros() + "";
-		} else if (mOp == MULTIPLY) {
-			mPreInput = (mLastInput.multiply(new BigDecimal(mPreInput)))
-					.stripTrailingZeros() + "";
-		} else if (mOp == DIVIDE) {
-			try {
-				mPreInput = (mLastInput.divide(new BigDecimal(mPreInput),
-						5, RoundingMode.HALF_UP)).stripTrailingZeros() + "";
-			} catch (ArithmeticException ae) {
-					mPreInput = "Zero Division Error";
+				mTextBox.setText("-" + mTextBox.getText());
 			}
 		}
-		mNewInput = true;
-		mOp = RESET;
-		mLastInput = new BigDecimal(RESET);
-		mTextBox.setText(mPreInput);
 	}
 
 }
