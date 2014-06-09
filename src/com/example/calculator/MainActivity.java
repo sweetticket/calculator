@@ -1,5 +1,7 @@
 package com.example.calculator;
 
+import java.math.BigDecimal;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,11 +13,11 @@ public class MainActivity extends Activity {
 	// Constants
 	private int ADD = 1;
 	private int SUBTRACT = 2;
-	private int RESET = 0; // no operation set
+	private int RESET = 0;
 	
 	// Members
 	private String mPreInput = ""; //input that is currently in the textbox
-	private double mLastInput = 0.0; //input that was last in the textbox before the textbox was cleared
+	private BigDecimal mLastInput = new BigDecimal(RESET); //input that was last in the textbox before the textbox was cleared
 	private double mOp = RESET; //operation to be executed
 	private TextView mTextBox; //textbox pointer
 	
@@ -128,7 +130,7 @@ public class MainActivity extends Activity {
 		Button b = (Button) view;
 		mOp = ((String)b.getText()).equals("-") ? SUBTRACT : ADD;
 		if (mPreInput.length() > 0) {
-			mLastInput = Double.parseDouble(mPreInput);
+			mLastInput = new BigDecimal(mPreInput);
 			mPreInput = "";
 		}
 	}
@@ -139,12 +141,12 @@ public class MainActivity extends Activity {
 	 */
 	public void calculate(View view) {
 		if (mOp == ADD) {
-			mPreInput = (mLastInput + Double.parseDouble(mPreInput)) + "";
+			mPreInput = (mLastInput.add(new BigDecimal(mPreInput))) + "";
 		} else if (mOp == SUBTRACT) {
-			mPreInput = (mLastInput - Double.parseDouble(mPreInput)) + "";
+			mPreInput = (mLastInput.subtract(new BigDecimal(mPreInput))) + "";
 		}
 		mOp = RESET;
-		mLastInput = 0.0;
+		mLastInput = new BigDecimal(RESET);
 		mTextBox.setText(mPreInput);
 	}
 
