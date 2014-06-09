@@ -1,6 +1,7 @@
 package com.example.calculator;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -170,7 +171,7 @@ public class MainActivity extends Activity {
 		} else if (mOp == MULTIPLY){
 			mPreInput = (mLastInput.multiply(new BigDecimal(mPreInput))) + "";
 		} else if (mOp == DIVIDE){
-			mPreInput = (mLastInput.divide(new BigDecimal(mPreInput))) + "";
+			mPreInput = (mLastInput.divide(new BigDecimal(mPreInput), 5, RoundingMode.HALF_UP)) + "";
 		}
 		mNewInput = true;
 		mOp = RESET;
