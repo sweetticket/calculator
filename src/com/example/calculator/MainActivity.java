@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
 	private BigDecimal mLastInput = new BigDecimal(RESET); //input that was last in the textbox before the textbox was cleared
 	private double mOp = RESET; //operation to be executed
 	private TextView mTextBox; //textbox pointer
+	private boolean mNewInput = true; // if true, clear screen before entering new digits
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,10 @@ public class MainActivity extends Activity {
 	 * in the text box, add the digit to the end of the pre-displayed input.
 	 */
 	public void displayDigit(View view) {
+		if (mNewInput){
+			clearInput(view);
+			mNewInput = false;
+		}
 		if (mPreInput.length() < 10) {
 			Button b = (Button) view;
 			String new_digit = b.getText().toString();
@@ -107,6 +112,8 @@ public class MainActivity extends Activity {
 		mPreInput = "";
 		mTextBox.setText(mPreInput);
 		mOp = RESET;
+		mLastInput = new BigDecimal(RESET);
+
 	}
 
 	/**
@@ -127,6 +134,9 @@ public class MainActivity extends Activity {
 	 * Sets fields for add operation
 	 */
 	public void setOp(View view) {
+		if (mNewInput){
+			mNewInput = false;
+		}
 		Button b = (Button) view;
 		mOp = ((String)b.getText()).equals("-") ? SUBTRACT : ADD;
 		if (mPreInput.length() > 0) {
@@ -145,6 +155,7 @@ public class MainActivity extends Activity {
 		} else if (mOp == SUBTRACT) {
 			mPreInput = (mLastInput.subtract(new BigDecimal(mPreInput))) + "";
 		}
+		mNewInput = true;
 		mOp = RESET;
 		mLastInput = new BigDecimal(RESET);
 		mTextBox.setText(mPreInput);
