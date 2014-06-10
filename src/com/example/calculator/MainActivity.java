@@ -1,5 +1,7 @@
 package com.example.calculator;
 
+import java.math.BigDecimal;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -88,6 +90,10 @@ public class MainActivity extends Activity {
 		OnClickListener point_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				if (mMode == READY_TO_RESET) {
+					reset();
+					mMode = ENTERING_FIRST;
+				}
 				addPoint(view);
 			}
 		};
@@ -119,7 +125,12 @@ public class MainActivity extends Activity {
 		OnClickListener calc_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mTextBox.setText(mState.calculate().toString());
+				BigDecimal result = mState.calculate();
+				if (result.toPlainString().length() > 10) {
+					mTextBox.setText(result.toString());
+				} else {
+					mTextBox.setText(result.toPlainString());
+				}
 				mMode = READY_TO_RESET;
 			}
 		};

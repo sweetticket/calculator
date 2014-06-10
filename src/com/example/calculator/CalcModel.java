@@ -87,7 +87,7 @@ public class CalcModel {
 		} else if (mOp == MULTIPLY) {
 			mCurrent = mLastInput.multiply(mCurrent).stripTrailingZeros();
 		} else if (mOp == DIVIDE) {
-			mCurrent = (mLastInput.divide(mCurrent, 5, RoundingMode.HALF_UP))
+			mCurrent = (mLastInput.divide(mCurrent, 10, RoundingMode.HALF_UP))
 					.stripTrailingZeros();
 		}
 		mOp = RESET;
