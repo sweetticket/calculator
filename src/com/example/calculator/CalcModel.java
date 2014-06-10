@@ -42,7 +42,8 @@ public class CalcModel {
 	}
 
 	public void updateDecimal(int nextDigit) {
-		mCurrent = mCurrent.add((new BigDecimal(nextDigit)).scaleByPowerOfTen(mExp));
+		mCurrent = mCurrent.add((new BigDecimal(nextDigit))
+				.scaleByPowerOfTen(mExp));
 		mExp--;
 	}
 
@@ -87,7 +88,7 @@ public class CalcModel {
 		} else if (mOp == MULTIPLY) {
 			mCurrent = mLastInput.multiply(mCurrent).stripTrailingZeros();
 		} else if (mOp == DIVIDE) {
-			mCurrent = (mLastInput.divide(mCurrent, 10, RoundingMode.HALF_UP))
+			mCurrent = (mLastInput.divide(mCurrent, 20, RoundingMode.HALF_UP))
 					.stripTrailingZeros();
 		}
 		mOp = RESET;
