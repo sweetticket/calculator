@@ -61,7 +61,6 @@ public class MainActivity extends Activity {
 			public void onClick(View view) {
 				if (mMode == READY_TO_RESET) {
 					reset();
-					mMode = ENTERING_FIRST;
 				}
 				if (mMode == READY_FOR_NEXT) {
 					mTextBox.setText("");
@@ -90,7 +89,6 @@ public class MainActivity extends Activity {
 			public void onClick(View view) {
 				if (mMode == READY_TO_RESET) {
 					reset();
-					mMode = ENTERING_FIRST;
 				}
 				addPoint(view);
 			}
@@ -113,7 +111,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				reset();
-				mMode = ENTERING_FIRST;
 			}
 		};
 		((Button) findViewById(R.id.btn_clear))
@@ -170,6 +167,7 @@ public class MainActivity extends Activity {
 		mState.clearInput();
 		mTextBox.setText(mState.getCurrent().toString());
 		mDecimalize = false;
+		mMode = ENTERING_FIRST;
 	}
 	
 	/** Calculates and displays result */
