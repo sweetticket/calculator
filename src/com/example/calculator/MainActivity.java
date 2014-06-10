@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
 				}
 				mState.setOp(b.getText().toString());
 				mMode = READY_FOR_NEXT;
+				mDecimalize = false;
 			}
 		};
 		((Button) findViewById(R.id.btn_add)).setOnClickListener(op_listener);
@@ -63,7 +64,6 @@ public class MainActivity extends Activity {
 					mMode = ENTERING_FIRST;
 				}
 				if (mMode == READY_FOR_NEXT) {
-					mDecimalize = false;
 					mTextBox.setText("");
 					mMode = READY_TO_CALC;
 				}
@@ -89,7 +89,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				addPoint(view);
-				mDecimalize = true;
 			}
 		};
 		((Button) findViewById(R.id.btn_dec))
