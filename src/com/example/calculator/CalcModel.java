@@ -3,8 +3,6 @@ package com.example.calculator;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import android.util.Log;
-
 public class CalcModel {
 
 	// Constants
@@ -80,21 +78,26 @@ public class CalcModel {
 	 * Calculates the final value. Sets mCurrent to the final value. Displays
 	 * final value in textbox.
 	 */
-	public BigDecimal calculate() {
-		if (mOp == ADD) {
-			mCurrent = mLastInput.add(mCurrent).stripTrailingZeros();
-		} else if (mOp == SUBTRACT) {
-			mCurrent = mLastInput.subtract(mCurrent).stripTrailingZeros();
-		} else if (mOp == MULTIPLY) {
-			mCurrent = mLastInput.multiply(mCurrent).stripTrailingZeros();
-		} else if (mOp == DIVIDE) {
-			mCurrent = (mLastInput.divide(mCurrent, 20, RoundingMode.HALF_UP))
-					.stripTrailingZeros();
+	public boolean calculate() {
+		try {
+			if (mOp == ADD) {
+				mCurrent = mLastInput.add(mCurrent).stripTrailingZeros();
+			} else if (mOp == SUBTRACT) {
+				mCurrent = mLastInput.subtract(mCurrent).stripTrailingZeros();
+			} else if (mOp == MULTIPLY) {
+				mCurrent = mLastInput.multiply(mCurrent).stripTrailingZeros();
+			} else if (mOp == DIVIDE) {
+				mCurrent = (mLastInput.divide(mCurrent, 20,
+						RoundingMode.HALF_UP)).stripTrailingZeros();
+				mOp = RESET;
+				mLastInput = new BigDecimal(RESET);
+				mExp = -1;
+			}
+		} catch (ArithmeticException ae) {
+			clearInput();
+			return false;
 		}
-		mOp = RESET;
-		mLastInput = new BigDecimal(RESET);
-		mExp = -1;
-		return mCurrent;
+		return true;
 	}
 
 }

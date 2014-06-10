@@ -1,7 +1,5 @@
 package com.example.calculator;
 
-import java.math.BigDecimal;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -44,7 +42,7 @@ public class MainActivity extends Activity {
 			public void onClick(View view) {
 				Button b = (Button) view;
 				if (mMode == READY_TO_CALC) {
-					mTextBox.setText(mState.calculate().toString());
+					displayResult();
 				}
 				mState.setOp(b.getText().toString());
 				mMode = READY_FOR_NEXT;
@@ -125,13 +123,7 @@ public class MainActivity extends Activity {
 		OnClickListener calc_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				BigDecimal result = mState.calculate();
-				if (result.toPlainString().length() > 10) {
-					mTextBox.setText(result.toString());
-				} else {
-					mTextBox.setText(result.toPlainString());
-				}
-				mMode = READY_TO_RESET;
+				displayResult();
 			}
 		};
 		((Button) findViewById(R.id.btn_eq)).setOnClickListener(calc_listener);
@@ -179,5 +171,18 @@ public class MainActivity extends Activity {
 		mTextBox.setText(mState.getCurrent().toString());
 		mDecimalize = false;
 	}
-
+	
+	/** Calculates and displays result */
+	public void displayResult(){
+		if (mState.calculate()) {
+			if (mState.getCurrent().toPlainString().length() > 10) {
+				mTextBox.setText(mState.getCurrent().toString());
+			} else {
+				mTextBox.setText(mState.getCurrent().toPlainString());
+			}
+			}else{
+				mTextBox.setText("Zero Division Error");
+			}
+		mMode = READY_TO_RESET;
+	}
 }
