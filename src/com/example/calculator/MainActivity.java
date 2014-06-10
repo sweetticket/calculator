@@ -8,17 +8,22 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	
+
 	// Constants
-	private static final int READY_FOR_NEXT = 1039184; // ready for second number, textbox not yet refreshed
+	private static final int READY_FOR_NEXT = 1039184; // ready for second
+														// number, textbox not
+														// yet refreshed
 	private static final int READY_TO_RESET = 2903039; // AC
-	private static final int READY_TO_CALC = 2342222; // current input is the second number
-	private static final int ENTERING_FIRST = 3209581; // current input is the first number
-	
+	private static final int READY_TO_CALC = 2342222; // current input is the
+														// second number
+	private static final int ENTERING_FIRST = 3209581; // current input is the
+														// first number
+
 	// Members
 	private CalcModel mState;
 	private TextView mTextBox; // textbox pointer
 	private int mMode;
+	private boolean mDecimalize;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main_activity);
 		mTextBox = (TextView) findViewById(R.id.calc_input);
 		mMode = ENTERING_FIRST;
+		mDecimalize = false;
 		mState = new CalcModel();
 		mTextBox.setText(mState.getCurrent().toString());
 
@@ -35,7 +41,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				Button b = (Button) view;
-				if (mMode == READY_TO_CALC){
+				if (mMode == READY_TO_CALC) {
 					mTextBox.setText(mState.calculate().toString());
 				}
 				mState.setOp(b.getText().toString());
@@ -56,7 +62,8 @@ public class MainActivity extends Activity {
 					reset();
 					mMode = ENTERING_FIRST;
 				}
-				if (mMode == READY_FOR_NEXT){
+				if (mMode == READY_FOR_NEXT) {
+					mDecimalize = false;
 					mTextBox.setText("");
 					mMode = READY_TO_CALC;
 				}
@@ -76,7 +83,17 @@ public class MainActivity extends Activity {
 				.setOnClickListener(num_listener);
 		((Button) findViewById(R.id.btn_nine)).setOnClickListener(num_listener);
 		((Button) findViewById(R.id.btn_zero)).setOnClickListener(num_listener);
-		((Button) findViewById(R.id.btn_dec)).setOnClickListener(num_listener);
+
+		// Listener for adding a decimal point
+		OnClickListener point_listener = new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				addPoint(view);
+				mDecimalize = true;
+			}
+		};
+		((Button) findViewById(R.id.btn_dec))
+				.setOnClickListener(point_listener);
 
 		// Listener for changing signs
 		OnClickListener sign_listener = new OnClickListener() {
@@ -112,12 +129,17 @@ public class MainActivity extends Activity {
 	}
 
 	/**
-	 * Displays the digit clicked in text box. Add the digit to the end of the pre-displayed input.
+	 * Displays the digit clicked in text box. Add the digit to the end of the
+	 * pre-displayed input.
 	 */
 	public void displayDigit(View view) {
 		if (mTextBox.getText().length() < 10) {
 			Button b = (Button) view;
-			mState.updateDigit(Integer.parseInt(b.getText().toString()));
+			if (!mDecimalize) {
+				mState.updateDigit(Integer.parseInt(b.getText().toString()));
+			} else {
+				mState.updateDecimal(Integer.parseInt(b.getText().toString()));
+			}
 			mTextBox.setText(mState.getCurrent().toString());
 		}
 	}
@@ -127,16 +149,25 @@ public class MainActivity extends Activity {
 	 */
 	public void changeSign(View view) {
 		if (mTextBox.getText().length() < 10) {
-				mState.updateSign();
-				mTextBox.setText(mState.getCurrent().toString());
+			mState.updateSign();
+			mTextBox.setText(mState.getCurrent().toString());
 
 		}
 	}
-	
+
+	/** Add decimal point */
+	public void addPoint(View view) {
+		if (!mDecimalize) {
+			mTextBox.setText(mState.getCurrent().toString() + ".");
+			mDecimalize = true;
+		}
+	}
+
 	/** AC */
-	public void reset(){
+	public void reset() {
 		mState.clearInput();
 		mTextBox.setText(mState.getCurrent().toString());
+		mDecimalize = false;
 	}
 
 }
